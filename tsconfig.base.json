@@ -15,7 +15,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@multiplayer-game/protobuf": ["libs/protobuf/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
