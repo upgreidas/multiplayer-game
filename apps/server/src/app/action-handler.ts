@@ -26,6 +26,11 @@ const handleLogin = (ws: Socket, data: LoginAction) => {
   PlayerManager.addPlayer(ws.playerId, name);
 };
 
+const handleDisconnect = (ws: Socket) => {
+  PlayerManager.removePlayer(ws.playerId);
+};
+
 export default {
   handle,
+  handleDisconnect,
 }

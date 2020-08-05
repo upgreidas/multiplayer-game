@@ -18,6 +18,10 @@ wss.on('connection', (ws: Socket) => {
       console.log(e.message);
     }
   });
+
+  ws.on('close', () => {
+    ActionHandler.handleDisconnect(ws);
+  });
 });
 
 console.log(`Server is listening on ${port} port.`);

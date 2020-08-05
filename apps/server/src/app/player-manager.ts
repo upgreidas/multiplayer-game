@@ -22,7 +22,15 @@ const getPlayer = (id: string) => {
 };
 
 const removePlayer = (id: string) => {
-  players = players.filter(player => player.id !== id);
+  const player = players.find(p => p.id === id);
+
+  if(!player) {
+    throw new Error(`Player ${id} does not exist.`);
+  }
+
+  player.destroy();
+
+  players = players.filter(p => p.id !== id);
 };
 
 export default {
