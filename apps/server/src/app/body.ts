@@ -12,4 +12,8 @@ export class Body {
     this.velocity.setAxes(x, y);
   }
 
+  update(dt: number) {
+    
+  }
+
 }

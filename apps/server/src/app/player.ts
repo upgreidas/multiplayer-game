@@ -23,7 +23,11 @@ export class Player {
     this.body = Physics.addBody(this.data.x, this.data.y, 0.5);
   }
 
-  afterPhysics() {
+  beforePhysics(dt: number) {
+
+  }
+
+  afterPhysics(dt: number) {
     
   }
 

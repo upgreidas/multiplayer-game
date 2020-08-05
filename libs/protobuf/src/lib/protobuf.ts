@@ -4,4 +4,4 @@ export * from './fire';
 export * from './login';
 export * from './move';
 export * from './player';
-export * from './update-package';
+export * from './update-packet';

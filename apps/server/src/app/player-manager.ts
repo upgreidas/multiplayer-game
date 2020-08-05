@@ -33,8 +33,18 @@ const removePlayer = (id: string) => {
   players = players.filter(p => p.id !== id);
 };
 
+const beforePhysics = (dt: number) => {
+  players.forEach(player => player.beforePhysics(dt));
+};
+
+const afterPhysics = (dt: number) => {
+  players.forEach(player => player.afterPhysics(dt));
+};
+
 export default {
   addPlayer,
   getPlayer,
   removePlayer,
+  beforePhysics,
+  afterPhysics,
 }
