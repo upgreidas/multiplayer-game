@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+
 import { Action } from '@multiplayer-game/protobuf';
+import Game from '../game/main';
 
 @Component({
   selector: 'multiplayer-game-root',
@@ -8,6 +10,8 @@ import { Action } from '@multiplayer-game/protobuf';
 })
 export class AppComponent {
   title = 'client';
+
+  @ViewChild('viewport', {static: true}) viewport: ElementRef;
 
   ngOnInit(): void {
     const socket = new WebSocket('ws://localhost:8000');
@@ -21,6 +25,8 @@ export class AppComponent {
       const buffer = Action.encode(message).finish();
       
       socket.send(buffer);
+
+      Game.init(this.viewport.nativeElement);
     }
   }
 }
