@@ -1,4 +1,6 @@
 import { Color, MoveDirection } from '@multiplayer-game/protobuf';
+import { Body } from './body';
+import Physics from './physics';
 
 export interface PlayerData {
   id: string;
@@ -15,8 +17,20 @@ export interface PlayerData {
 
 export class Player {
   
-  constructor(private data: PlayerData) {
+  private body: Body;
 
+  constructor(private data: PlayerData) {
+    this.body = Physics.addBody(this.data.x, this.data.y, 0.5);
+  }
+
+  afterPhysics() {
+    
+  }
+
+  destroy() {
+    Physics.removeBody(this.body);
+
+    this.body = undefined;
   }
 
   get id() {
