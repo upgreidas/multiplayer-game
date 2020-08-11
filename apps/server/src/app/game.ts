@@ -5,6 +5,8 @@ let updateTimer;
 let lastTime;
 
 const run = (updateInterval: number) => {
+  Physics.init();
+
   updateTimer = setInterval(() => {
     let dt = 0;
   
@@ -13,7 +15,7 @@ const run = (updateInterval: number) => {
     }
   
     PlayerManager.beforePhysics(dt);
-    Physics.step(dt);
+    Physics.tick(dt);
     PlayerManager.afterPhysics(dt);
     
     lastTime = Date.now();

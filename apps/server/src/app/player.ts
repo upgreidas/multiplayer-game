@@ -1,6 +1,6 @@
 import { Color, MoveDirection } from '@multiplayer-game/protobuf';
-import { Body } from './body';
 import Physics from './physics';
+import { Body } from 'matter-js';
 
 export interface PlayerData {
   id: string;
@@ -20,7 +20,7 @@ export class Player {
   private body: Body;
 
   constructor(private data: PlayerData) {
-    this.body = Physics.addBody(this.data.x, this.data.y, 0.5);
+    this.body = Physics.addCircle(this.data.x, this.data.y, 0.5);
   }
 
   beforePhysics(dt: number) {

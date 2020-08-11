@@ -1,23 +1,34 @@
-import { Body } from './body';
+import { Engine, Runner, Bodies, IBodyDefinition, World, Body } from 'matter-js';
 
-let bodies: Body[] = [];
-let updateInterval;
-let lastTime;
+let engine: Engine;
+let runner: Runner;
 
-const addBody = (x: number, y: number, radius: number) => {
-  return new Body(x, y, radius);
+const init = () => {
+  engine = Engine.create();
+  runner = Runner.create();
+
+  engine.world.gravity.y = 0;
+};
+
+const tick = (dt: number) => {
+  Runner.tick(runner, engine, dt);
+};
+
+const addCircle = (x: number, y: number, radius: number, options?: IBodyDefinition) => {
+  const circle = Bodies.circle(x, y, radius, options);
+
+  World.addBody(engine.world, circle);
+
+  return circle;
 };
 
 const removeBody = (body: Body) => {
-  bodies = bodies.filter(b => b !== body);
-};
-
-const step = (dt: number) => {
-  bodies.forEach(body => body.update(dt));
+  World.remove(engine.world, body);
 };
 
 export default {
-  step,
-  addBody,
+  init,
+  tick,
+  addCircle,
   removeBody,
 }
