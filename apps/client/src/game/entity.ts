@@ -2,6 +2,7 @@ import { Mesh, TransformNode, MeshBuilder } from '@babylonjs/core';
 import { Body, Vector } from 'matter-js';
 
 import Physics from './physics';
+import AssetManager from './asset-manager';
 
 import { EntityData } from './interfaces/entity-data';
 
@@ -25,10 +26,11 @@ export class Entity {
 
   build() {
     this.origin = new TransformNode('origin');
-
-    this.mesh = MeshBuilder.CreateSphere('entity', {diameter: 1});
-
-    this.mesh.parent = this.origin;
+    this.mesh = AssetManager.cloneMesh(this.data.model);
+    
+    if(this.mesh) {
+      this.mesh.parent = this.origin;
+    }
 
     this.body = Physics.addCircle(this.data.x, this.data.y, 0.5);
   }
@@ -50,6 +52,10 @@ export class Entity {
     Body.translate(this.body, this.velocity);
     this.origin.position.x = this.body.position.x;
     this.origin.position.z = this.body.position.y;
+  }
+
+  get id() {
+    return this.data.id;
   }
 
 }
