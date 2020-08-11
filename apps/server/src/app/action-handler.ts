@@ -1,4 +1,4 @@
-import { Action, LoginAction } from '@multiplayer-game/protobuf';
+import { Action, LoginAction, MoveAction } from '@multiplayer-game/protobuf';
 
 import { Socket } from './socket';
 import Helpers from './helpers';
@@ -7,6 +7,10 @@ import PlayerManager from './player-manager';
 const handle = (ws: Socket, data: Action) => {
   if(data.login) {
     handleLogin(ws, data.login);
+  }
+
+  if(data.move) {
+    handleMove(ws, data.move);
   }
 };
 
@@ -28,6 +32,16 @@ const handleLogin = (ws: Socket, data: LoginAction) => {
 
 const handleDisconnect = (ws: Socket) => {
   PlayerManager.removePlayer(ws.playerId);
+};
+
+const handleMove = (ws: Socket, data: MoveAction) => {
+  const player = PlayerManager.getPlayer(ws.playerId);
+
+  if(!player) {
+    return;
+  }
+
+  player.setMoveDirection(data.direction);
 };
 
 export default {
