@@ -4,7 +4,6 @@ import ConnectionManager from './connection-manager';
 import PlayerManager from './player-manager';
 
 let updateTimer;
-let lastTime;
 
 const constructPacket = () => {
   const packetData = {

@@ -34,6 +34,10 @@ const handleLogin = (ws: Socket, data: LoginAction) => {
 };
 
 const handleDisconnect = (ws: Socket) => {
+  if(!ws.playerId) {
+    return;
+  }
+  
   PlayerManager.removePlayer(ws.playerId);
   
   ConnectionManager.removeConnection(ws);
