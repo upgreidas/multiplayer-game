@@ -39,7 +39,7 @@ const init = async (container: HTMLElement) => {
   SceneManager.render();
 
   Controls.init();
-  Controls.onMove(({x, y}) => {
+  Controls.onMove(async ({x, y}) => {
     let direction = 0;
 
     if(x === 0 && y === 1) {
@@ -67,16 +67,7 @@ const init = async (container: HTMLElement) => {
 
   scene.registerBeforeRender(() => {
     const dt = SceneManager.getDeltaTime();
-    // const direction = Controls.getMoveDirection();
-    // let velocity =Vector.create(direction.x, direction.y);
-    // velocity = Vector.normalise(velocity);
-    // velocity = Vector.mult(velocity, speed);
-    // let magnitude = Vector.magnitude(velocity);
-    
-    // p1.setVelocity(velocity.x * dt, velocity.y * dt);
 
-    // Physics.tick(dt);
-  
     EntityManager.updateEntities(dt);
   });
 

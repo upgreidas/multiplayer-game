@@ -2,6 +2,7 @@ import { Mesh, TransformNode, MeshBuilder } from '@babylonjs/core';
 import { Body, Vector } from 'matter-js';
 
 import Physics from './physics';
+import Helpers from './helpers';
 import AssetManager from './asset-manager';
 
 import { EntityData } from './interfaces/entity-data';
@@ -15,6 +16,10 @@ export class Entity {
   private body: Body;
 
   private velocity: Vector = Vector.create(0, 0);
+
+  private stateTimestamp: number;
+
+  private newState: any = {};
 
   constructor(private data: EntityData) {
     this.data.x = this.data.x || 0;
@@ -49,12 +54,23 @@ export class Entity {
   }
 
   update(dt: number) {
-    this.origin.position.x = this.data.x;
-    this.origin.position.z = this.data.y;
+    let stateDelta = 1;
+
+    if(this.stateTimestamp) {
+      stateDelta = (Date.now() - this.stateTimestamp) / 100;
+    }
+    
+    stateDelta = Math.min(stateDelta, 1);
+    
+    this.origin.position.x = Helpers.lerp(this.data.x, this.newState.x, stateDelta);
+    this.origin.position.z = Helpers.lerp(this.data.y, this.newState.y, stateDelta);
   }
 
   applyState(data: any) {
-    Object.assign(this.data, data);
+    Object.assign(this.data, this.newState);
+    Object.assign(this.newState, data);
+
+    this.stateTimestamp = Date.now();
   }
 
   get id() {
