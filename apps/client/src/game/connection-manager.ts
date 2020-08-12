@@ -33,6 +33,10 @@ const onMessage = (handler: (data: any) => void) => {
 };
 
 const send = (data: any) => {
+  if(!socket || socket.readyState !== WebSocket.OPEN) {
+    return console.warn('Connection is not ready yet.');
+  }
+  
   const packet = Action.create(data);
 
   const buffer = Action.encode(packet).finish();

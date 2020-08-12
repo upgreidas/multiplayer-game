@@ -14,60 +14,94 @@ const keyStates = {
   right: false,
 };
 
-let target: Entity;
-
 let moveDirection = {
   x: [],
   y: [],
 };
 
-const init = (t: Entity) => {
-  target = t;
+let moveHandler: (direction: {x: number, y: number}) => void;
 
+const init = () => {
   window.addEventListener('keydown', (e: KeyboardEvent) => {
-    if(e.key.toLowerCase() === keyBindings.up) {
+    if(e.key.toLowerCase() === keyBindings.up && !keyStates.up) {
       keyStates.up = true;
       moveDirection.y.unshift(1);
+
+      if(moveHandler) {
+        moveHandler(getMoveDirection());
+      }
     }
     
-    if(e.key.toLowerCase() === keyBindings.down) {
+    if(e.key.toLowerCase() === keyBindings.down && !keyStates.down) {
       keyStates.down = true;
       moveDirection.y.unshift(-1);
+
+      if(moveHandler) {
+        moveHandler(getMoveDirection());
+      }
     }
     
-    if(e.key.toLowerCase() === keyBindings.left) {
+    if(e.key.toLowerCase() === keyBindings.left && !keyStates.left) {
       keyStates.left = true;
       moveDirection.x.unshift(-1);
+
+      if(moveHandler) {
+        moveHandler(getMoveDirection());
+      }
     }
     
-    if(e.key.toLowerCase() === keyBindings.right) {
+    if(e.key.toLowerCase() === keyBindings.right && !keyStates.right) {
       keyStates.right = true;
       moveDirection.x.unshift(1);
+
+      if(moveHandler) {
+        moveHandler(getMoveDirection());
+      }
     }
   });
 
   window.addEventListener('keyup', (e: KeyboardEvent) => {
     if(e.key.toLowerCase() === keyBindings.up) {
-      keyStates.up = true;
+      keyStates.up = false;
       moveDirection.y = moveDirection.y.filter(k => k !== 1);
+
+      if(moveHandler) {
+        moveHandler(getMoveDirection());
+      }
     }
     
     if(e.key.toLowerCase() === keyBindings.down) {
-      keyStates.down = true;
+      keyStates.down = false;
       moveDirection.y = moveDirection.y.filter(k => k !== -1);
+
+      if(moveHandler) {
+        moveHandler(getMoveDirection());
+      }
     }
     
     if(e.key.toLowerCase() === keyBindings.left) {
-      keyStates.left = true;
+      keyStates.left = false;
       moveDirection.x = moveDirection.x.filter(k => k !== -1);
+
+      if(moveHandler) {
+        moveHandler(getMoveDirection());
+      }
     }
     
     if(e.key.toLowerCase() === keyBindings.right) {
-      keyStates.right = true;
+      keyStates.right = false;
       moveDirection.x = moveDirection.x.filter(k => k !== 1);
+
+      if(moveHandler) {
+        moveHandler(getMoveDirection());
+      }
     }
   });
 }
+
+const onMove = (handler: (direction: {x: number, y: number}) => void) => {
+  moveHandler = handler;
+};
 
 const getMoveDirection = () => {
   const x = moveDirection.x[0] || 0;
@@ -78,5 +112,6 @@ const getMoveDirection = () => {
 
 export default {
   init,
+  onMove,
   getMoveDirection,
 }

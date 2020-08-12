@@ -57,8 +57,8 @@ export class Player {
       this.velocity.x = 0;
       this.velocity.y = 0;
     } else {
-      this.velocity.x = this.speed * Math.cos(angle);
-      this.velocity.y = this.speed * Math.sin(angle);
+      this.velocity.x = this.speed * Math.sin(angle);
+      this.velocity.y = this.speed * Math.cos(angle);
     }
   }
 

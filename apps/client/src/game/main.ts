@@ -38,6 +38,33 @@ const init = async (container: HTMLElement) => {
 
   SceneManager.render();
 
+  Controls.init();
+  Controls.onMove(({x, y}) => {
+    let direction = 0;
+
+    if(x === 0 && y === 1) {
+      direction = 1;
+    } else if(x === 1 && y === 1) {
+      direction = 2;
+    } else if(x === 1 && y === 0) {
+      direction = 3;
+    } else if(x === 1 && y === -1) {
+      direction = 4;
+    } else if(x === 0 && y === -1) {
+      direction = 5;
+    } else if(x === -1 && y === -1) {
+      direction = 6;
+    } else if(x === -1 && y === 0) {
+      direction = 7;
+    } else if(x === -1 && y === 1) {
+      direction = 8;
+    }
+    
+    ConnectionManager.send({
+      move: { direction },
+    })
+  });
+
   scene.registerBeforeRender(() => {
     const dt = SceneManager.getDeltaTime();
     // const direction = Controls.getMoveDirection();
