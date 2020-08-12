@@ -24,6 +24,8 @@ const init = (container: HTMLElement) => {
   scene = new Scene(engine);
   hemisphericLight = new HemisphericLight('light', new Vector3(-1, 0, 1), scene);
   camera = new UniversalCamera('camera', Vector3.Zero(), scene);
+
+  return scene;
 };
 
 const render = () => {

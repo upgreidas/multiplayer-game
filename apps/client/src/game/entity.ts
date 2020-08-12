@@ -1,10 +1,7 @@
 import { Mesh, TransformNode, MeshBuilder, Camera } from '@babylonjs/core';
-import { Body, Vector } from 'matter-js';
 
-import Physics from './physics';
 import Helpers from './helpers';
 import AssetManager from './asset-manager';
-
 import { EntityData } from './interfaces/entity-data';
 
 export class Entity {
@@ -12,10 +9,6 @@ export class Entity {
   private origin: TransformNode;
 
   private mesh: Mesh;
-
-  private body: Body;
-
-  private velocity: Vector = Vector.create(0, 0);
 
   private stateTimestamp: number;
 
@@ -36,21 +29,6 @@ export class Entity {
     if(this.mesh) {
       this.mesh.parent = this.origin;
     }
-
-    this.body = Physics.addCircle(this.data.x, this.data.y, 0.5);
-  }
-
-  setVelocity(x: number, y: number) {
-    this.velocity.x = x;
-    this.velocity.y = y;
-  }
-
-  setMass(value: number) {
-    Body.setMass(this.body, value);
-  }
-
-  setFriction(value: number) {
-    this.body.friction = value;
   }
 
   update(dt: number) {
