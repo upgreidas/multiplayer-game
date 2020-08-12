@@ -1,5 +1,5 @@
-import { Duplex } from 'stream';
+import * as WebSocket from 'ws';
 
-export interface Socket extends Duplex {
+export interface Socket extends WebSocket {
   playerId?: string;
 }

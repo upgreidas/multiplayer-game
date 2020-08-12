@@ -10,7 +10,7 @@ const removeConnection = (socket: Socket) => {
   connections = connections.filter(connection => connection !== socket);
 };
 
-const eachConnection = (handler: () => void) => {
+const eachConnection = (handler: (connection: Socket) => void) => {
   connections.forEach(connection => handler);
 };
 

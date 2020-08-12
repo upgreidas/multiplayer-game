@@ -21,6 +21,10 @@ const getPlayer = (id: string) => {
   return players.find(player => player.id === id);
 };
 
+const eachPlayer = (handler: (player: Player) => void) => {
+  players.forEach(player => handler);
+};
+
 const removePlayer = (id: string) => {
   const player = players.find(p => p.id === id);
 
@@ -44,6 +48,7 @@ const afterPhysics = (dt: number) => {
 export default {
   addPlayer,
   getPlayer,
+  eachPlayer,
   removePlayer,
   beforePhysics,
   afterPhysics,

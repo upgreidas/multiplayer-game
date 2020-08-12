@@ -60,6 +60,10 @@ export class Player {
     }
   }
 
+  getData() {
+    return this.data;
+  }
+
   get id() {
     return this.data.id;
   }
