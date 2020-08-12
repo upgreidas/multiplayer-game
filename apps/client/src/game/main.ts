@@ -1,14 +1,13 @@
-import { MeshBuilder, Camera, UniversalCamera, Scene } from '@babylonjs/core';
+import { Vector } from 'matter-js';
+
 import SceneManager from './scene-manager';
 import AssetManager from './asset-manager';
 import EntityManager from './entity-manager';
 import ConnectionManager from './connection-manager';
 import Physics from './physics';
 import Controls from './controls';
-
 import { Entity } from './entity';
 import { EntityData } from './interfaces/entity-data';
-import { Vector } from 'matter-js';
 
 const entities = [];
 
@@ -39,44 +38,43 @@ const init = async (container: HTMLElement) => {
 
   SceneManager.render();
 
-  const p1 = EntityManager.addEntity({
-    id: '1',
-    model: 'character',
-  });
-
-  const p2 = EntityManager.addEntity({
-    id: '2',
-    model: 'character',
-    y: 3,
-  });
-  
-  Controls.init(p1);
-
-  const speed = 5;
-
   scene.registerBeforeRender(() => {
     const dt = SceneManager.getDeltaTime();
-    const direction = Controls.getMoveDirection();
-    let velocity =Vector.create(direction.x, direction.y);
-    velocity = Vector.normalise(velocity);
-    velocity = Vector.mult(velocity, speed);
-    let magnitude = Vector.magnitude(velocity);
+    // const direction = Controls.getMoveDirection();
+    // let velocity =Vector.create(direction.x, direction.y);
+    // velocity = Vector.normalise(velocity);
+    // velocity = Vector.mult(velocity, speed);
+    // let magnitude = Vector.magnitude(velocity);
     
-    p1.setVelocity(velocity.x * dt, velocity.y * dt);
+    // p1.setVelocity(velocity.x * dt, velocity.y * dt);
 
-    Physics.tick(dt);
+    // Physics.tick(dt);
   
     EntityManager.updateEntities(dt);
   });
 
   ConnectionManager.connect('ws://localhost:8000');
-  
+
   ConnectionManager.onConnect(() => {
     ConnectionManager.send({
       login: {
         name: 'test',
       }
-    })
+    });
+  });
+
+  ConnectionManager.onMessage((data: any) => {
+    data.players.forEach(state => {
+      const player = EntityManager.getEntity(state.id);
+
+      if(player) {
+        player.applyState(state);
+      } else {
+        state.model = 'character';
+
+        EntityManager.addEntity(state);
+      }
+    });
   });
 
 };

@@ -30,7 +30,9 @@ export class Player {
   }
 
   beforePhysics(dt: number) {
-    Body.translate(this.body, this.velocity);
+    const velocity = Vector.create(this.velocity.x * dt, this.velocity.y * dt);
+
+    Body.translate(this.body, velocity);
   }
 
   afterPhysics(dt: number) {

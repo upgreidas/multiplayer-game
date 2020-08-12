@@ -49,9 +49,12 @@ export class Entity {
   }
 
   update(dt: number) {
-    Body.translate(this.body, this.velocity);
-    this.origin.position.x = this.body.position.x;
-    this.origin.position.z = this.body.position.y;
+    this.origin.position.x = this.data.x;
+    this.origin.position.z = this.data.y;
+  }
+
+  applyState(data: any) {
+    Object.assign(this.data, data);
   }
 
   get id() {
