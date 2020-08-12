@@ -13,8 +13,8 @@ export class PlayerData extends Message {
   @Field.d(2, 'string', 'optional')
   public name: string;
 
-  @Field.d(3, 'string', 'optional')
-  public color: string;
+  @Field.d(3, Color, 'optional')
+  public color: Color;
 
   @Field.d(4, 'float', 'optional')
   public x: number;

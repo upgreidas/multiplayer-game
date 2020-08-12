@@ -11,6 +11,9 @@ import { EntityData } from './interfaces/entity-data';
 
 const entities = [];
 
+let playerId: string;
+let cameraAttached = false;
+
 const addEntity = (data: EntityData) => {
   const entity = new Entity(data);
 
@@ -33,7 +36,7 @@ const init = async (container: HTMLElement) => {
     assets: 'assets.babylon',
   });
 
-  camera.position.set(0, 20, -15);
+  camera.position.set(0, 22, -19);
   camera.rotation.set(Math.PI / 4, 0, 0);
 
   SceneManager.render();
@@ -82,17 +85,27 @@ const init = async (container: HTMLElement) => {
   });
 
   ConnectionManager.onMessage((data: any) => {
-    data.players.forEach(state => {
-      const player = EntityManager.getEntity(state.id);
+    if(data.players) {
+      data.players.forEach(state => {
+        let player = EntityManager.getEntity(state.id);
+  
+        if(player) {
+          player.applyState(state);
+        } else {
+          state.model = 'character';
+  
+          player = EntityManager.addEntity(state);
 
-      if(player) {
-        player.applyState(state);
-      } else {
-        state.model = 'character';
+          if(state.id === playerId) {
+            player.attachCamera(camera);
+          }
+        }
+      });
+    }
 
-        EntityManager.addEntity(state);
-      }
-    });
+    if(data.id) {
+      playerId = data.id;
+    }
   });
 
 };

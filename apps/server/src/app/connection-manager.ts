@@ -1,10 +1,10 @@
+import { UpdatePacket } from '@multiplayer-game/protobuf';
 import { Socket } from './socket';
 
 let connections: Socket[] = [];
 
 const addConnection = (socket: Socket) => {
   connections.push(socket);
-  console.log(connections.length, socket.playerId);
 };
 
 const removeConnection = (socket: Socket) => {
@@ -17,8 +17,17 @@ const eachConnection = (handler: (connection: Socket) => void) => {
   });
 };
 
+const sendPacket = (ws: Socket, data: any) => {
+  const packet = UpdatePacket.create(data);
+
+  const buffer = UpdatePacket.encode(packet).finish();
+
+  ws.send(buffer);
+};
+
 export default {
   addConnection,
   removeConnection,
   eachConnection,
+  sendPacket,
 }

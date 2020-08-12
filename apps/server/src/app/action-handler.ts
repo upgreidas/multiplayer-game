@@ -31,13 +31,14 @@ const handleLogin = (ws: Socket, data: LoginAction) => {
   PlayerManager.addPlayer(ws.playerId, name);
 
   ConnectionManager.addConnection(ws);
+  ConnectionManager.sendPacket(ws, { id: ws.playerId });
 };
 
 const handleDisconnect = (ws: Socket) => {
   if(!ws.playerId) {
     return;
   }
-  
+
   PlayerManager.removePlayer(ws.playerId);
   
   ConnectionManager.removeConnection(ws);

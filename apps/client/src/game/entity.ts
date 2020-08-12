@@ -1,4 +1,4 @@
-import { Mesh, TransformNode, MeshBuilder } from '@babylonjs/core';
+import { Mesh, TransformNode, MeshBuilder, Camera } from '@babylonjs/core';
 import { Body, Vector } from 'matter-js';
 
 import Physics from './physics';
@@ -73,8 +73,20 @@ export class Entity {
     this.stateTimestamp = Date.now();
   }
 
+  attachCamera(camera: Camera) {
+    camera.parent = this.origin;
+  }
+
   get id() {
     return this.data.id;
+  }
+
+  get x() {
+    return this.data.x;
+  }
+
+  get y() {
+    return this.data.y;
   }
 
 }
