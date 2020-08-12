@@ -1,8 +1,8 @@
 import { MeshBuilder, Camera, UniversalCamera, Scene } from '@babylonjs/core';
-
 import SceneManager from './scene-manager';
 import AssetManager from './asset-manager';
 import EntityManager from './entity-manager';
+import ConnectionManager from './connection-manager';
 import Physics from './physics';
 import Controls from './controls';
 
@@ -67,6 +67,16 @@ const init = async (container: HTMLElement) => {
     Physics.tick(dt);
   
     EntityManager.updateEntities(dt);
+  });
+
+  ConnectionManager.connect('ws://localhost:8000');
+  
+  ConnectionManager.onConnect(() => {
+    ConnectionManager.send({
+      login: {
+        name: 'test',
+      }
+    })
   });
 
 };
