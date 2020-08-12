@@ -22,7 +22,9 @@ const getPlayer = (id: string) => {
 };
 
 const eachPlayer = (handler: (player: Player) => void) => {
-  players.forEach(player => handler);
+  players.forEach(player => {
+    handler(player);
+  });
 };
 
 const removePlayer = (id: string) => {
